@@ -387,7 +387,8 @@ export const ModelName = {
   User: 'User',
   Post: 'Post',
   Tag: 'Tag',
-  PostTag: 'PostTag'
+  PostTag: 'PostTag',
+  DailyTrafficStat: 'DailyTrafficStat'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "post" | "tag" | "postTag"
+    modelProps: "user" | "post" | "tag" | "postTag" | "dailyTrafficStat"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -703,6 +704,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DailyTrafficStat: {
+      payload: Prisma.$DailyTrafficStatPayload<ExtArgs>
+      fields: Prisma.DailyTrafficStatFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyTrafficStatFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyTrafficStatFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyTrafficStatFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyTrafficStatFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>
+        }
+        findMany: {
+          args: Prisma.DailyTrafficStatFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>[]
+        }
+        create: {
+          args: Prisma.DailyTrafficStatCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>
+        }
+        createMany: {
+          args: Prisma.DailyTrafficStatCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyTrafficStatCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyTrafficStatDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>
+        }
+        update: {
+          args: Prisma.DailyTrafficStatUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyTrafficStatDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyTrafficStatUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyTrafficStatUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyTrafficStatUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyTrafficStatPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyTrafficStatAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyTrafficStat>
+        }
+        groupBy: {
+          args: Prisma.DailyTrafficStatGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyTrafficStatGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyTrafficStatCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyTrafficStatCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -785,6 +860,18 @@ export const PostTagScalarFieldEnum = {
 } as const
 
 export type PostTagScalarFieldEnum = (typeof PostTagScalarFieldEnum)[keyof typeof PostTagScalarFieldEnum]
+
+
+export const DailyTrafficStatScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  dau: 'dau',
+  pv: 'pv',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyTrafficStatScalarFieldEnum = (typeof DailyTrafficStatScalarFieldEnum)[keyof typeof DailyTrafficStatScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -870,6 +957,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -969,6 +1070,7 @@ export type GlobalOmitConfig = {
   post?: Prisma.PostOmit
   tag?: Prisma.TagOmit
   postTag?: Prisma.PostTagOmit
+  dailyTrafficStat?: Prisma.DailyTrafficStatOmit
 }
 
 /* Types for Logging */

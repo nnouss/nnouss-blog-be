@@ -75,3 +75,14 @@ model PostTag {
 
     @@id([postId, tagId])
 }
+
+model DailyTrafficStat {
+    id  BigInt  @id @default(autoincrement())    
+    date    DateTime @unique @db.Date   // 날짜(시간 제외)
+    dau Int @default(0) // 일간 고유 방문자 (uv)
+    pv  Int @default(0) // 일간 페이지 뷰
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([date])
+}
