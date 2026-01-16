@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
 import { TagModule } from './tag/tag.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { TagModule } from './tag/tag.module';
         ImageModule,
         PostModule,
         TagModule,
+        RedisModule,
     ],
     controllers: [AppController],
     providers: [AppService],
