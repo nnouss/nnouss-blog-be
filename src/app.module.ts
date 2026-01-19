@@ -8,6 +8,7 @@ import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
 import { TagModule } from './tag/tag.module';
 import { RedisModule } from './redis/redis.module';
+import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { RedisModule } from './redis/redis.module';
         PostModule,
         TagModule,
         RedisModule,
+        MetricsModule,
     ],
     controllers: [AppController],
     providers: [AppService],
