@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MetricsService } from './metrics.service';
 import { RedisService } from '../redis/redis.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('MetricsService', () => {
   let service: MetricsService;
@@ -17,6 +18,10 @@ describe('MetricsService', () => {
               incr: jest.fn().mockResolvedValue(1),
             },
           },
+        },
+        {
+          provide: PrismaService,
+          useValue: {},
         },
       ],
     }).compile();
