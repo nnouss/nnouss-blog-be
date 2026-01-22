@@ -1,14 +1,6 @@
-import {
-    Controller,
-    Post,
-    Req,
-    Body,
-    HttpCode,
-    HttpStatus,
-} from '@nestjs/common';
+import { Controller, Post, Req, HttpCode, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { MetricsService } from './metrics.service';
-import { TrackDto } from './dtos/track.dto';
 
 @Controller('metrics')
 export class MetricsController {
@@ -19,12 +11,12 @@ export class MetricsController {
      * - DAU: HLL에 visitorId 추가
      * - PV: 일별 카운터 +1
      *
-     * visitorId: X-Visitor-Id(헤더) > body.visitorId(디버그) > clientIp > 'anon:unknown'
+     * visitorId: X-Visitor-Id(헤더) > clientIp > 'anon:unknown'
      * clientIp: x-forwarded-for > x-real-ip > req.socket.remoteAddress
      */
     @Post('track')
     @HttpCode(HttpStatus.NO_CONTENT)
-    async track(@Req() req: Request, @Body() body?: TrackDto): Promise<void> {
+    async track(@Req() req: Request): Promise<void> {
         const forwarded = req.headers['x-forwarded-for'];
         const realIp = req.headers['x-real-ip'];
         const clientIp =
@@ -36,7 +28,6 @@ export class MetricsController {
 
         const visitorId =
             (req.headers['x-visitor-id'] as string) ??
-            body?.visitorId ??
             clientIp ??
             'anon:unknown';
 
