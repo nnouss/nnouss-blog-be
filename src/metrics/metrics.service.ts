@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { format, subDays, parse } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { RedisService } from '../redis/redis.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -26,16 +26,14 @@ export class MetricsService {
     /**
      * Redis 일별 집계(DAU, PV)를 DB DailyTrafficStat에 동기화
      */
-    @Cron('0 50 1 * * *')
+    @Cron('0 17 2 * * *')
     async syncDailyTrafficToDb(): Promise<void> {
         try {
-            // 어제 날짜 문자열 계산 (로컬 타임존 기준)
             const dateStr = format(subDays(new Date(), 1), 'yyyy-MM-dd', {
                 locale: ko,
             });
 
-            // dateStr을 파싱해서 Date 객체 생성 (로컬 타임존 기준)
-            const dateForDb = parse(dateStr, 'yyyy-MM-dd', new Date());
+            const dateForDb = new Date(dateStr + 'T00:00:00Z');
 
             const hllKey = `visits:hll:${dateStr}`;
             const countKey = `visits:count:${dateStr}`;
