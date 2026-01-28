@@ -26,7 +26,7 @@ export class MetricsService {
     /**
      * Redis 일별 집계(DAU, PV)를 DB DailyTrafficStat에 동기화
      */
-    @Cron('0 17 2 * * *')
+    @Cron('0 5 0 * * *')
     async syncDailyTrafficToDb(): Promise<void> {
         try {
             const dateStr = format(subDays(new Date(), 1), 'yyyy-MM-dd', {
