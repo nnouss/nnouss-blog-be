@@ -24,7 +24,7 @@ export class MetricsService {
     /**
      * Redis 일별 집계(DAU, PV)를 DB DailyTrafficStat에 동기화
      */
-    @Cron('5 0 * * *')
+    @Cron('0 20 13 * * *')
     async syncDailyTrafficToDb(): Promise<void> {
         const today = format(new Date(), 'yyyy-MM-dd', { locale: ko });
         const yesterday = subDays(today, 1);
@@ -44,5 +44,53 @@ export class MetricsService {
             update: { dau, pv },
             create: { date: dateOnly, dau, pv },
         });
+    }
+
+    /**
+     * 통계 요약: 오늘 방문자 수, 누적 방문자 수
+     */
+    async getSummary(): Promise<{ today: number; total: number }> {
+        const today = format(new Date(), 'yyyy-MM-dd', { locale: ko });
+        const hllKey = `visits:hll:${today}`;
+
+        const todayVisitors = await this.redis.client.pfcount(hllKey);
+
+        const result = await this.prisma.dailyTrafficStat.aggregate({
+            _sum: {
+                dau: true,
+            },
+        });
+
+        const totalVisitors = result._sum.dau ?? 0;
+
+        return {
+            today: todayVisitors,
+            total: totalVisitors,
+        };
+    }
+
+    /**
+     * 통계 그래프: 최근 5일 일별 데이터 (DAU, PV)
+     */
+    async getChart(): Promise<{
+        data: Array<{ date: string; dau: number; pv: number }>;
+    }> {
+        const stats = await this.prisma.dailyTrafficStat.findMany({
+            take: 5,
+            orderBy: { date: 'desc' },
+            select: {
+                date: true,
+                dau: true,
+                pv: true,
+            },
+        });
+
+        const data = stats.reverse().map((stat) => ({
+            date: stat.date.toISOString().slice(0, 10),
+            dau: stat.dau,
+            pv: stat.pv,
+        }));
+
+        return { data };
     }
 }

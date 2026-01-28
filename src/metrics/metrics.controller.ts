@@ -1,4 +1,11 @@
-import { Controller, Post, Req, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+    Controller,
+    Post,
+    Req,
+    HttpCode,
+    HttpStatus,
+    Get,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { MetricsService } from './metrics.service';
 
@@ -32,5 +39,23 @@ export class MetricsController {
             'anon:unknown';
 
         await this.metricsService.track(visitorId);
+    }
+
+    /**
+     * 통계 요약 조회
+     * - today: 오늘 방문자 수 (Redis 실시간)
+     * - total: 누적 방문자 수 (DB 합계)
+     */
+    @Get('summary')
+    async getSummary() {
+        return await this.metricsService.getSummary();
+    }
+
+    /**
+     * 통계 그래프: 최근 5일 일별 데이터 (DAU, PV)
+     */
+    @Get('chart')
+    async getChart() {
+        return await this.metricsService.getChart();
     }
 }
