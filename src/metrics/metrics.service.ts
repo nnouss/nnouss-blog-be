@@ -26,52 +26,29 @@ export class MetricsService {
     /**
      * Redis 일별 집계(DAU, PV)를 DB DailyTrafficStat에 동기화
      */
-    @Cron('0 20 1 * * *')
+    @Cron('0 36 1 * * *')
     async syncDailyTrafficToDb(): Promise<void> {
-        const now = new Date();
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const processTimezone = process.env.TZ || 'not set';
-
-        this.logger.log('=== syncDailyTrafficToDb 크론 작업 시작 ===');
-        this.logger.log(`현재 시간 (UTC): ${now.toISOString()}`);
-        this.logger.log(`현재 시간 (로컬): ${now.toString()}`);
-        this.logger.log(`시스템 타임존: ${timezone}`);
-        this.logger.log(`프로세스 TZ 환경 변수: ${processTimezone}`);
-
         try {
-            const today = format(new Date(), 'yyyy-MM-dd', { locale: ko });
-            const yesterday = subDays(today, 1);
-
-            this.logger.log(`계산된 today: ${today}`);
-            this.logger.log(`계산된 yesterday: ${yesterday}`);
-
-            const dateOnly = startOfDay(yesterday);
-            const dateStr = format(dateOnly, 'yyyy-MM-dd', { locale: ko });
-
-            this.logger.log(`dateOnly: ${dateOnly.toISOString()}`);
-            this.logger.log(`dateStr: ${dateStr}`);
+            // 어제 날짜 계산: 현재 날짜에서 하루 빼고 시간 부분 제거
+            const yesterday = startOfDay(subDays(new Date(), 1));
+            const dateStr = format(yesterday, 'yyyy-MM-dd', { locale: ko });
 
             const hllKey = `visits:hll:${dateStr}`;
             const countKey = `visits:count:${dateStr}`;
-
-            this.logger.log(`Redis HLL 키: ${hllKey}`);
-            this.logger.log(`Redis Count 키: ${countKey}`);
 
             const dau = await this.redis.client.pfcount(hllKey);
             const pvRaw = await this.redis.client.get(countKey);
             const pv = pvRaw ? parseInt(pvRaw, 10) : 0;
 
-            this.logger.log(`조회된 DAU: ${dau}`);
-            this.logger.log(`조회된 PV: ${pv}`);
-
-            const result = await this.prisma.dailyTrafficStat.upsert({
-                where: { date: dateOnly },
+            await this.prisma.dailyTrafficStat.upsert({
+                where: { date: yesterday },
                 update: { dau, pv },
-                create: { date: dateOnly, dau, pv },
+                create: { date: yesterday, dau, pv },
             });
 
-            this.logger.log(`DB 저장 완료: ${JSON.stringify(result)}`);
-            this.logger.log('=== syncDailyTrafficToDb 크론 작업 완료 ===');
+            this.logger.log(
+                `동기화 완료 - date: ${dateStr}, DAU: ${dau}, PV: ${pv}`,
+            );
         } catch (error) {
             this.logger.error('syncDailyTrafficToDb 실행 중 오류 발생:', error);
             this.logger.error(`오류 스택: ${error.stack}`);
