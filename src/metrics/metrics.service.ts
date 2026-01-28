@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { format, subDays, startOfDay } from 'date-fns';
+import { format, subDays, parse } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { RedisService } from '../redis/redis.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -26,12 +26,16 @@ export class MetricsService {
     /**
      * Redis 일별 집계(DAU, PV)를 DB DailyTrafficStat에 동기화
      */
-    @Cron('0 36 1 * * *')
+    @Cron('0 50 1 * * *')
     async syncDailyTrafficToDb(): Promise<void> {
         try {
-            // 어제 날짜 계산: 현재 날짜에서 하루 빼고 시간 부분 제거
-            const yesterday = startOfDay(subDays(new Date(), 1));
-            const dateStr = format(yesterday, 'yyyy-MM-dd', { locale: ko });
+            // 어제 날짜 문자열 계산 (로컬 타임존 기준)
+            const dateStr = format(subDays(new Date(), 1), 'yyyy-MM-dd', {
+                locale: ko,
+            });
+
+            // dateStr을 파싱해서 Date 객체 생성 (로컬 타임존 기준)
+            const dateForDb = parse(dateStr, 'yyyy-MM-dd', new Date());
 
             const hllKey = `visits:hll:${dateStr}`;
             const countKey = `visits:count:${dateStr}`;
@@ -41,13 +45,13 @@ export class MetricsService {
             const pv = pvRaw ? parseInt(pvRaw, 10) : 0;
 
             await this.prisma.dailyTrafficStat.upsert({
-                where: { date: yesterday },
+                where: { date: dateForDb },
                 update: { dau, pv },
-                create: { date: yesterday, dau, pv },
+                create: { date: dateForDb, dau, pv },
             });
 
             this.logger.log(
-                `동기화 완료 - date: ${dateStr}, DAU: ${dau}, PV: ${pv}`,
+                `동기화 완료 - date: ${dateStr}, dateForDb: ${dateForDb}, DAU: ${dau}, PV: ${pv}`,
             );
         } catch (error) {
             this.logger.error('syncDailyTrafficToDb 실행 중 오류 발생:', error);
