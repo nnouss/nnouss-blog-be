@@ -42,11 +42,15 @@ export class MetricsService {
             const pvRaw = await this.redis.client.get(countKey);
             const pv = pvRaw ? parseInt(pvRaw, 10) : 0;
 
+            // DB 저장
             await this.prisma.dailyTrafficStat.upsert({
                 where: { date: dateForDb },
                 update: { dau, pv },
                 create: { date: dateForDb, dau, pv },
             });
+
+            // Redis 값 삭제
+            await this.redis.client.del(hllKey, countKey);
 
             this.logger.log(
                 `동기화 완료 - date: ${dateStr}, dateForDb: ${dateForDb}, DAU: ${dau}, PV: ${pv}`,
