@@ -27,26 +27,20 @@ export type AggregateComment = {
 }
 
 export type CommentAvgAggregateOutputType = {
-  id: number | null
-  parentId: number | null
-  rootId: number | null
   depth: number | null
 }
 
 export type CommentSumAggregateOutputType = {
-  id: bigint | null
-  parentId: bigint | null
-  rootId: bigint | null
   depth: bigint | null
 }
 
 export type CommentMinAggregateOutputType = {
-  id: bigint | null
+  id: string | null
   postId: string | null
   authorId: string | null
   content: string | null
-  parentId: bigint | null
-  rootId: bigint | null
+  parentId: string | null
+  rootId: string | null
   depth: bigint | null
   replyToUserId: string | null
   isDeleted: boolean | null
@@ -56,12 +50,12 @@ export type CommentMinAggregateOutputType = {
 }
 
 export type CommentMaxAggregateOutputType = {
-  id: bigint | null
+  id: string | null
   postId: string | null
   authorId: string | null
   content: string | null
-  parentId: bigint | null
-  rootId: bigint | null
+  parentId: string | null
+  rootId: string | null
   depth: bigint | null
   replyToUserId: string | null
   isDeleted: boolean | null
@@ -88,16 +82,10 @@ export type CommentCountAggregateOutputType = {
 
 
 export type CommentAvgAggregateInputType = {
-  id?: true
-  parentId?: true
-  rootId?: true
   depth?: true
 }
 
 export type CommentSumAggregateInputType = {
-  id?: true
-  parentId?: true
-  rootId?: true
   depth?: true
 }
 
@@ -234,12 +222,12 @@ export type CommentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type CommentGroupByOutputType = {
-  id: bigint
+  id: string
   postId: string
   authorId: string | null
   content: string
-  parentId: bigint | null
-  rootId: bigint | null
+  parentId: string | null
+  rootId: string | null
   depth: bigint
   replyToUserId: string | null
   isDeleted: boolean
@@ -272,12 +260,12 @@ export type CommentWhereInput = {
   AND?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
   OR?: Prisma.CommentWhereInput[]
   NOT?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
-  id?: Prisma.BigIntFilter<"Comment"> | bigint | number
+  id?: Prisma.StringFilter<"Comment"> | string
   postId?: Prisma.StringFilter<"Comment"> | string
   authorId?: Prisma.StringNullableFilter<"Comment"> | string | null
   content?: Prisma.StringFilter<"Comment"> | string
-  parentId?: Prisma.BigIntNullableFilter<"Comment"> | bigint | number | null
-  rootId?: Prisma.BigIntNullableFilter<"Comment"> | bigint | number | null
+  parentId?: Prisma.StringNullableFilter<"Comment"> | string | null
+  rootId?: Prisma.StringNullableFilter<"Comment"> | string | null
   depth?: Prisma.BigIntFilter<"Comment"> | bigint | number
   replyToUserId?: Prisma.StringNullableFilter<"Comment"> | string | null
   isDeleted?: Prisma.BoolFilter<"Comment"> | boolean
@@ -316,15 +304,15 @@ export type CommentOrderByWithRelationInput = {
 }
 
 export type CommentWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: string
   AND?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
   OR?: Prisma.CommentWhereInput[]
   NOT?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
   postId?: Prisma.StringFilter<"Comment"> | string
   authorId?: Prisma.StringNullableFilter<"Comment"> | string | null
   content?: Prisma.StringFilter<"Comment"> | string
-  parentId?: Prisma.BigIntNullableFilter<"Comment"> | bigint | number | null
-  rootId?: Prisma.BigIntNullableFilter<"Comment"> | bigint | number | null
+  parentId?: Prisma.StringNullableFilter<"Comment"> | string | null
+  rootId?: Prisma.StringNullableFilter<"Comment"> | string | null
   depth?: Prisma.BigIntFilter<"Comment"> | bigint | number
   replyToUserId?: Prisma.StringNullableFilter<"Comment"> | string | null
   isDeleted?: Prisma.BoolFilter<"Comment"> | boolean
@@ -364,12 +352,12 @@ export type CommentScalarWhereWithAggregatesInput = {
   AND?: Prisma.CommentScalarWhereWithAggregatesInput | Prisma.CommentScalarWhereWithAggregatesInput[]
   OR?: Prisma.CommentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CommentScalarWhereWithAggregatesInput | Prisma.CommentScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"Comment"> | bigint | number
+  id?: Prisma.StringWithAggregatesFilter<"Comment"> | string
   postId?: Prisma.StringWithAggregatesFilter<"Comment"> | string
   authorId?: Prisma.StringNullableWithAggregatesFilter<"Comment"> | string | null
   content?: Prisma.StringWithAggregatesFilter<"Comment"> | string
-  parentId?: Prisma.BigIntNullableWithAggregatesFilter<"Comment"> | bigint | number | null
-  rootId?: Prisma.BigIntNullableWithAggregatesFilter<"Comment"> | bigint | number | null
+  parentId?: Prisma.StringNullableWithAggregatesFilter<"Comment"> | string | null
+  rootId?: Prisma.StringNullableWithAggregatesFilter<"Comment"> | string | null
   depth?: Prisma.BigIntWithAggregatesFilter<"Comment"> | bigint | number
   replyToUserId?: Prisma.StringNullableWithAggregatesFilter<"Comment"> | string | null
   isDeleted?: Prisma.BoolWithAggregatesFilter<"Comment"> | boolean
@@ -379,7 +367,7 @@ export type CommentScalarWhereWithAggregatesInput = {
 }
 
 export type CommentCreateInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -396,12 +384,12 @@ export type CommentCreateInput = {
 }
 
 export type CommentUncheckedCreateInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -413,7 +401,7 @@ export type CommentUncheckedCreateInput = {
 }
 
 export type CommentUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -430,12 +418,12 @@ export type CommentUpdateInput = {
 }
 
 export type CommentUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -447,12 +435,12 @@ export type CommentUncheckedUpdateInput = {
 }
 
 export type CommentCreateManyInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -462,7 +450,7 @@ export type CommentCreateManyInput = {
 }
 
 export type CommentUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -472,12 +460,12 @@ export type CommentUpdateManyMutationInput = {
 }
 
 export type CommentUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -517,9 +505,6 @@ export type CommentCountOrderByAggregateInput = {
 }
 
 export type CommentAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  parentId?: Prisma.SortOrder
-  rootId?: Prisma.SortOrder
   depth?: Prisma.SortOrder
 }
 
@@ -554,9 +539,6 @@ export type CommentMinOrderByAggregateInput = {
 }
 
 export type CommentSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  parentId?: Prisma.SortOrder
-  rootId?: Prisma.SortOrder
   depth?: Prisma.SortOrder
 }
 
@@ -774,14 +756,6 @@ export type CommentUpdateManyWithoutRootNestedInput = {
   deleteMany?: Prisma.CommentScalarWhereInput | Prisma.CommentScalarWhereInput[]
 }
 
-export type NullableBigIntFieldUpdateOperationsInput = {
-  set?: bigint | number | null
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
-}
-
 export type CommentUncheckedUpdateManyWithoutParentNestedInput = {
   create?: Prisma.XOR<Prisma.CommentCreateWithoutParentInput, Prisma.CommentUncheckedCreateWithoutParentInput> | Prisma.CommentCreateWithoutParentInput[] | Prisma.CommentUncheckedCreateWithoutParentInput[]
   connectOrCreate?: Prisma.CommentCreateOrConnectWithoutParentInput | Prisma.CommentCreateOrConnectWithoutParentInput[]
@@ -811,7 +785,7 @@ export type CommentUncheckedUpdateManyWithoutRootNestedInput = {
 }
 
 export type CommentCreateWithoutAuthorInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -827,11 +801,11 @@ export type CommentCreateWithoutAuthorInput = {
 }
 
 export type CommentUncheckedCreateWithoutAuthorInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -853,7 +827,7 @@ export type CommentCreateManyAuthorInputEnvelope = {
 }
 
 export type CommentCreateWithoutReplyToUserInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -869,12 +843,12 @@ export type CommentCreateWithoutReplyToUserInput = {
 }
 
 export type CommentUncheckedCreateWithoutReplyToUserInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   isDeleted?: boolean
   deletedAt?: Date | string | null
@@ -914,12 +888,12 @@ export type CommentScalarWhereInput = {
   AND?: Prisma.CommentScalarWhereInput | Prisma.CommentScalarWhereInput[]
   OR?: Prisma.CommentScalarWhereInput[]
   NOT?: Prisma.CommentScalarWhereInput | Prisma.CommentScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"Comment"> | bigint | number
+  id?: Prisma.StringFilter<"Comment"> | string
   postId?: Prisma.StringFilter<"Comment"> | string
   authorId?: Prisma.StringNullableFilter<"Comment"> | string | null
   content?: Prisma.StringFilter<"Comment"> | string
-  parentId?: Prisma.BigIntNullableFilter<"Comment"> | bigint | number | null
-  rootId?: Prisma.BigIntNullableFilter<"Comment"> | bigint | number | null
+  parentId?: Prisma.StringNullableFilter<"Comment"> | string | null
+  rootId?: Prisma.StringNullableFilter<"Comment"> | string | null
   depth?: Prisma.BigIntFilter<"Comment"> | bigint | number
   replyToUserId?: Prisma.StringNullableFilter<"Comment"> | string | null
   isDeleted?: Prisma.BoolFilter<"Comment"> | boolean
@@ -945,7 +919,7 @@ export type CommentUpdateManyWithWhereWithoutReplyToUserInput = {
 }
 
 export type CommentCreateWithoutPostInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -961,11 +935,11 @@ export type CommentCreateWithoutPostInput = {
 }
 
 export type CommentUncheckedCreateWithoutPostInput = {
-  id?: bigint | number
+  id?: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1003,7 +977,7 @@ export type CommentUpdateManyWithWhereWithoutPostInput = {
 }
 
 export type CommentCreateWithoutChildrenInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -1019,12 +993,12 @@ export type CommentCreateWithoutChildrenInput = {
 }
 
 export type CommentUncheckedCreateWithoutChildrenInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1040,7 +1014,7 @@ export type CommentCreateOrConnectWithoutChildrenInput = {
 }
 
 export type CommentCreateWithoutParentInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -1056,11 +1030,11 @@ export type CommentCreateWithoutParentInput = {
 }
 
 export type CommentUncheckedCreateWithoutParentInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  rootId?: bigint | number | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1082,7 +1056,7 @@ export type CommentCreateManyParentInputEnvelope = {
 }
 
 export type CommentCreateWithoutThreadInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -1098,12 +1072,12 @@ export type CommentCreateWithoutThreadInput = {
 }
 
 export type CommentUncheckedCreateWithoutThreadInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1119,7 +1093,7 @@ export type CommentCreateOrConnectWithoutThreadInput = {
 }
 
 export type CommentCreateWithoutRootInput = {
-  id?: bigint | number
+  id?: string
   content: string
   depth?: bigint | number
   isDeleted?: boolean
@@ -1135,11 +1109,11 @@ export type CommentCreateWithoutRootInput = {
 }
 
 export type CommentUncheckedCreateWithoutRootInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
+  parentId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1172,7 +1146,7 @@ export type CommentUpdateToOneWithWhereWithoutChildrenInput = {
 }
 
 export type CommentUpdateWithoutChildrenInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1188,12 +1162,12 @@ export type CommentUpdateWithoutChildrenInput = {
 }
 
 export type CommentUncheckedUpdateWithoutChildrenInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1231,7 +1205,7 @@ export type CommentUpdateToOneWithWhereWithoutThreadInput = {
 }
 
 export type CommentUpdateWithoutThreadInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1247,12 +1221,12 @@ export type CommentUpdateWithoutThreadInput = {
 }
 
 export type CommentUncheckedUpdateWithoutThreadInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1279,11 +1253,11 @@ export type CommentUpdateManyWithWhereWithoutRootInput = {
 }
 
 export type CommentCreateManyAuthorInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1293,12 +1267,12 @@ export type CommentCreateManyAuthorInput = {
 }
 
 export type CommentCreateManyReplyToUserInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   isDeleted?: boolean
   deletedAt?: Date | string | null
@@ -1307,7 +1281,7 @@ export type CommentCreateManyReplyToUserInput = {
 }
 
 export type CommentUpdateWithoutAuthorInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1323,11 +1297,11 @@ export type CommentUpdateWithoutAuthorInput = {
 }
 
 export type CommentUncheckedUpdateWithoutAuthorInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1339,11 +1313,11 @@ export type CommentUncheckedUpdateWithoutAuthorInput = {
 }
 
 export type CommentUncheckedUpdateManyWithoutAuthorInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1353,7 +1327,7 @@ export type CommentUncheckedUpdateManyWithoutAuthorInput = {
 }
 
 export type CommentUpdateWithoutReplyToUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1369,12 +1343,12 @@ export type CommentUpdateWithoutReplyToUserInput = {
 }
 
 export type CommentUncheckedUpdateWithoutReplyToUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1385,12 +1359,12 @@ export type CommentUncheckedUpdateWithoutReplyToUserInput = {
 }
 
 export type CommentUncheckedUpdateManyWithoutReplyToUserInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1399,11 +1373,11 @@ export type CommentUncheckedUpdateManyWithoutReplyToUserInput = {
 }
 
 export type CommentCreateManyPostInput = {
-  id?: bigint | number
+  id?: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
-  rootId?: bigint | number | null
+  parentId?: string | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1413,7 +1387,7 @@ export type CommentCreateManyPostInput = {
 }
 
 export type CommentUpdateWithoutPostInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1429,11 +1403,11 @@ export type CommentUpdateWithoutPostInput = {
 }
 
 export type CommentUncheckedUpdateWithoutPostInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1445,11 +1419,11 @@ export type CommentUncheckedUpdateWithoutPostInput = {
 }
 
 export type CommentUncheckedUpdateManyWithoutPostInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1459,11 +1433,11 @@ export type CommentUncheckedUpdateManyWithoutPostInput = {
 }
 
 export type CommentCreateManyParentInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  rootId?: bigint | number | null
+  rootId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1473,11 +1447,11 @@ export type CommentCreateManyParentInput = {
 }
 
 export type CommentCreateManyRootInput = {
-  id?: bigint | number
+  id?: string
   postId: string
   authorId?: string | null
   content: string
-  parentId?: bigint | number | null
+  parentId?: string | null
   depth?: bigint | number
   replyToUserId?: string | null
   isDeleted?: boolean
@@ -1487,7 +1461,7 @@ export type CommentCreateManyRootInput = {
 }
 
 export type CommentUpdateWithoutParentInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1503,11 +1477,11 @@ export type CommentUpdateWithoutParentInput = {
 }
 
 export type CommentUncheckedUpdateWithoutParentInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1519,11 +1493,11 @@ export type CommentUncheckedUpdateWithoutParentInput = {
 }
 
 export type CommentUncheckedUpdateManyWithoutParentInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  rootId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  rootId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1533,7 +1507,7 @@ export type CommentUncheckedUpdateManyWithoutParentInput = {
 }
 
 export type CommentUpdateWithoutRootInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1549,11 +1523,11 @@ export type CommentUpdateWithoutRootInput = {
 }
 
 export type CommentUncheckedUpdateWithoutRootInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1565,11 +1539,11 @@ export type CommentUncheckedUpdateWithoutRootInput = {
 }
 
 export type CommentUncheckedUpdateManyWithoutRootInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   depth?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   replyToUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1734,12 +1708,12 @@ export type $CommentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     replyToUser: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
+    id: string
     postId: string
     authorId: string | null
     content: string
-    parentId: bigint | null
-    rootId: bigint | null
+    parentId: string | null
+    rootId: string | null
     depth: bigint
     replyToUserId: string | null
     isDeleted: boolean
@@ -2176,12 +2150,12 @@ export interface Prisma__CommentClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Comment model
  */
 export interface CommentFieldRefs {
-  readonly id: Prisma.FieldRef<"Comment", 'BigInt'>
+  readonly id: Prisma.FieldRef<"Comment", 'String'>
   readonly postId: Prisma.FieldRef<"Comment", 'String'>
   readonly authorId: Prisma.FieldRef<"Comment", 'String'>
   readonly content: Prisma.FieldRef<"Comment", 'String'>
-  readonly parentId: Prisma.FieldRef<"Comment", 'BigInt'>
-  readonly rootId: Prisma.FieldRef<"Comment", 'BigInt'>
+  readonly parentId: Prisma.FieldRef<"Comment", 'String'>
+  readonly rootId: Prisma.FieldRef<"Comment", 'String'>
   readonly depth: Prisma.FieldRef<"Comment", 'BigInt'>
   readonly replyToUserId: Prisma.FieldRef<"Comment", 'String'>
   readonly isDeleted: Prisma.FieldRef<"Comment", 'Boolean'>
