@@ -28,10 +28,17 @@ model User {
     password String
     nickname String @unique
     role Role @default(USER)
+
+    // 탈퇴 처리
+    isDeleted Boolean @default(false)
+    deletedAt DateTime?
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     posts Post[]
+    comments Comment[] @relation("CommentAuthor")
+    repliedToByComments Comment[] @relation("CommentReplyToUser")
 }
 
 model Post {
@@ -51,6 +58,7 @@ model Post {
     
 
     tags PostTag[]      // Tag 테이블과 M:N 조인
+    Comments Comment[]
 
     @@index([authorId])
     @@index([createdAt])
@@ -85,4 +93,51 @@ model DailyTrafficStat {
     updatedAt DateTime @updatedAt
 
     @@index([date])
+}
+
+// 댓글
+model Comment {
+    id BigInt @id @default(autoincrement())
+
+    postId String
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+    // 작성자: 회원 탈퇴/삭제 시, 댓글은 남기기 위해 nullable + SetNull
+    authorId String?
+    author User? @relation("CommentAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+
+    // 내용
+    content String @db.Text
+
+    // 무한 depth: 직계 부모
+    // Restrict: 실수로 부모 댓글 hard delete 했을 때, 아래가 연쇄 삭제되는 사고를 막음
+    // hard delete는 leaf 없는 댓글 만 허용
+    parentId BigInt?
+    parent Comment? @relation("CommentParent", fields: [parentId], references: [id], onDelete: Restrict)
+    children Comment[] @relation("CommentParent")
+
+    // 이 댓글이 속한 '최상위 댓글 id'
+    rootId BigInt?
+    root Comment? @relation("CommentRoot", fields: [rootId], references: [id], onDelete: Restrict)
+    thread Comment[] @relation("CommentRoot")
+
+    // 실제 depth (0=최상위, 1=대댓글, 2=대댓글의 대댓글..)
+    // UI 들여쓰기에는 그대로 쓰지않고, 멘션 표시 같은 정책에만 사용
+    depth BigInt @default(0)
+
+    // 2단+에서 윗 댓글 작성자 태그(@xxx)를 위한 필드
+    replyToUserId String?
+    replyToUser User? @relation("CommentReplyToUser", fields: [replyToUserId], references: [id], onDelete: SetNull)
+
+    // 삭제 정책: leaf 면 hard, 자식 있으면 soft
+    isDeleted Boolean @default(false)
+    deletedAt DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([postId, createdAt])
+    @@index([rootId, createdAt])
+    @@index([parentId, createdAt])
+    @@index([authorId, createdAt])
 }

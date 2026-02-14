@@ -55,7 +55,8 @@ export const ModelName = {
   Post: 'Post',
   Tag: 'Tag',
   PostTag: 'PostTag',
-  DailyTrafficStat: 'DailyTrafficStat'
+  DailyTrafficStat: 'DailyTrafficStat',
+  Comment: 'Comment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -80,6 +81,8 @@ export const UserScalarFieldEnum = {
   password: 'password',
   nickname: 'nickname',
   role: 'role',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -129,6 +132,24 @@ export const DailyTrafficStatScalarFieldEnum = {
 } as const
 
 export type DailyTrafficStatScalarFieldEnum = (typeof DailyTrafficStatScalarFieldEnum)[keyof typeof DailyTrafficStatScalarFieldEnum]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  authorId: 'authorId',
+  content: 'content',
+  parentId: 'parentId',
+  rootId: 'rootId',
+  depth: 'depth',
+  replyToUserId: 'replyToUserId',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
 export const SortOrder = {

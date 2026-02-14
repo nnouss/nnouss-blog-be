@@ -30,6 +30,8 @@ export type UserMinAggregateOutputType = {
   password: string | null
   nickname: string | null
   role: $Enums.Role | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -40,6 +42,8 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   nickname: string | null
   role: $Enums.Role | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +54,8 @@ export type UserCountAggregateOutputType = {
   password: number
   nickname: number
   role: number
+  isDeleted: number
+  deletedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -62,6 +68,8 @@ export type UserMinAggregateInputType = {
   password?: true
   nickname?: true
   role?: true
+  isDeleted?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -72,6 +80,8 @@ export type UserMaxAggregateInputType = {
   password?: true
   nickname?: true
   role?: true
+  isDeleted?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +92,8 @@ export type UserCountAggregateInputType = {
   password?: true
   nickname?: true
   role?: true
+  isDeleted?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -165,6 +177,8 @@ export type UserGroupByOutputType = {
   password: string
   nickname: string
   role: $Enums.Role
+  isDeleted: boolean
+  deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -196,9 +210,13 @@ export type UserWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
   nickname?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
+  repliedToByComments?: Prisma.CommentListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -207,9 +225,13 @@ export type UserOrderByWithRelationInput = {
   password?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   posts?: Prisma.PostOrderByRelationAggregateInput
+  comments?: Prisma.CommentOrderByRelationAggregateInput
+  repliedToByComments?: Prisma.CommentOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -221,9 +243,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
+  repliedToByComments?: Prisma.CommentListRelationFilter
 }, "id" | "email" | "nickname">
 
 export type UserOrderByWithAggregationInput = {
@@ -232,6 +258,8 @@ export type UserOrderByWithAggregationInput = {
   password?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -248,6 +276,8 @@ export type UserScalarWhereWithAggregatesInput = {
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   nickname?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -258,9 +288,13 @@ export type UserCreateInput = {
   password: string
   nickname: string
   role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  repliedToByComments?: Prisma.CommentCreateNestedManyWithoutReplyToUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -269,9 +303,13 @@ export type UserUncheckedCreateInput = {
   password: string
   nickname: string
   role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  repliedToByComments?: Prisma.CommentUncheckedCreateNestedManyWithoutReplyToUserInput
 }
 
 export type UserUpdateInput = {
@@ -280,9 +318,13 @@ export type UserUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  repliedToByComments?: Prisma.CommentUpdateManyWithoutReplyToUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -291,9 +333,13 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  repliedToByComments?: Prisma.CommentUncheckedUpdateManyWithoutReplyToUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -302,6 +348,8 @@ export type UserCreateManyInput = {
   password: string
   nickname: string
   role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -312,6 +360,8 @@ export type UserUpdateManyMutationInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -322,6 +372,8 @@ export type UserUncheckedUpdateManyInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -332,6 +384,8 @@ export type UserCountOrderByAggregateInput = {
   password?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -342,6 +396,8 @@ export type UserMaxOrderByAggregateInput = {
   password?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -352,6 +408,8 @@ export type UserMinOrderByAggregateInput = {
   password?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -361,12 +419,25 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -387,14 +458,50 @@ export type UserUpdateOneRequiredWithoutPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPostsInput, Prisma.UserUpdateWithoutPostsInput>, Prisma.UserUncheckedUpdateWithoutPostsInput>
 }
 
+export type UserCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutRepliedToByCommentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRepliedToByCommentsInput, Prisma.UserUncheckedCreateWithoutRepliedToByCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRepliedToByCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.UserUpsertWithoutCommentsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserUpdateOneWithoutRepliedToByCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRepliedToByCommentsInput, Prisma.UserUncheckedCreateWithoutRepliedToByCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRepliedToByCommentsInput
+  upsert?: Prisma.UserUpsertWithoutRepliedToByCommentsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRepliedToByCommentsInput, Prisma.UserUpdateWithoutRepliedToByCommentsInput>, Prisma.UserUncheckedUpdateWithoutRepliedToByCommentsInput>
+}
+
 export type UserCreateWithoutPostsInput = {
   id?: string
   email: string
   password: string
   nickname: string
   role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  repliedToByComments?: Prisma.CommentCreateNestedManyWithoutReplyToUserInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -403,8 +510,12 @@ export type UserUncheckedCreateWithoutPostsInput = {
   password: string
   nickname: string
   role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  repliedToByComments?: Prisma.CommentUncheckedCreateNestedManyWithoutReplyToUserInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -429,8 +540,12 @@ export type UserUpdateWithoutPostsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  repliedToByComments?: Prisma.CommentUpdateManyWithoutReplyToUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -439,8 +554,156 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  repliedToByComments?: Prisma.CommentUncheckedUpdateManyWithoutReplyToUserNestedInput
+}
+
+export type UserCreateWithoutCommentsInput = {
+  id?: string
+  email: string
+  password: string
+  nickname: string
+  role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  repliedToByComments?: Prisma.CommentCreateNestedManyWithoutReplyToUserInput
+}
+
+export type UserUncheckedCreateWithoutCommentsInput = {
+  id?: string
+  email: string
+  password: string
+  nickname: string
+  role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  repliedToByComments?: Prisma.CommentUncheckedCreateNestedManyWithoutReplyToUserInput
+}
+
+export type UserCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+}
+
+export type UserCreateWithoutRepliedToByCommentsInput = {
+  id?: string
+  email: string
+  password: string
+  nickname: string
+  role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutRepliedToByCommentsInput = {
+  id?: string
+  email: string
+  password: string
+  nickname: string
+  role?: $Enums.Role
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutRepliedToByCommentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRepliedToByCommentsInput, Prisma.UserUncheckedCreateWithoutRepliedToByCommentsInput>
+}
+
+export type UserUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  repliedToByComments?: Prisma.CommentUpdateManyWithoutReplyToUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  repliedToByComments?: Prisma.CommentUncheckedUpdateManyWithoutReplyToUserNestedInput
+}
+
+export type UserUpsertWithoutRepliedToByCommentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRepliedToByCommentsInput, Prisma.UserUncheckedUpdateWithoutRepliedToByCommentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRepliedToByCommentsInput, Prisma.UserUncheckedCreateWithoutRepliedToByCommentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRepliedToByCommentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRepliedToByCommentsInput, Prisma.UserUncheckedUpdateWithoutRepliedToByCommentsInput>
+}
+
+export type UserUpdateWithoutRepliedToByCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRepliedToByCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 
@@ -450,10 +713,14 @@ export type UserUncheckedUpdateWithoutPostsInput = {
 
 export type UserCountOutputType = {
   posts: number
+  comments: number
+  repliedToByComments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | UserCountOutputTypeCountPostsArgs
+  comments?: boolean | UserCountOutputTypeCountCommentsArgs
+  repliedToByComments?: boolean | UserCountOutputTypeCountRepliedToByCommentsArgs
 }
 
 /**
@@ -473,6 +740,20 @@ export type UserCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.PostWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRepliedToByCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -480,9 +761,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   nickname?: boolean
   role?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
+  repliedToByComments?: boolean | Prisma.User$repliedToByCommentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -492,6 +777,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   nickname?: boolean
   role?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -502,6 +789,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   nickname?: boolean
   role?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -512,13 +801,17 @@ export type UserSelectScalar = {
   password?: boolean
   nickname?: boolean
   role?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "nickname" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "nickname" | "role" | "isDeleted" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
+  repliedToByComments?: boolean | Prisma.User$repliedToByCommentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -528,6 +821,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     posts: Prisma.$PostPayload<ExtArgs>[]
+    comments: Prisma.$CommentPayload<ExtArgs>[]
+    repliedToByComments: Prisma.$CommentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -535,6 +830,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     password: string
     nickname: string
     role: $Enums.Role
+    isDeleted: boolean
+    deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -932,6 +1229,8 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   posts<T extends Prisma.User$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  repliedToByComments<T extends Prisma.User$repliedToByCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$repliedToByCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -966,6 +1265,8 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly nickname: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
+  readonly isDeleted: Prisma.FieldRef<"User", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -1377,6 +1678,54 @@ export type User$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.PostScalarFieldEnum | Prisma.PostScalarFieldEnum[]
+}
+
+/**
+ * User.comments
+ */
+export type User$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
+}
+
+/**
+ * User.repliedToByComments
+ */
+export type User$repliedToByCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
 }
 
 /**
