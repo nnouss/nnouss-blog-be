@@ -55,26 +55,26 @@ export class PostController {
 
     /** 글 삭제 */
     @UseGuards(JwtAuthGuard)
-    @Delete(':slug')
-    async deletePost(@Param('slug') slug: string, @Req() req: Request) {
+    @Delete(':id')
+    async deletePost(@Param('id') id: string, @Req() req: Request) {
         const authorId = req.user.sub;
 
-        await this.postService.deletePost(slug, authorId);
+        await this.postService.deletePost(id, authorId);
 
         return { success: true };
     }
 
     /** 글 수정 */
     @UseGuards(JwtAuthGuard)
-    @Put(':slug')
+    @Put(':id')
     async editPost(
-        @Param('slug') slug: string,
+        @Param('id') id: string,
         @Body() data: EditPostDto,
         @Req() req: Request,
     ) {
         const authorId = req.user.sub;
 
-        await this.postService.editPost(slug, data, authorId);
+        await this.postService.editPost(id, data, authorId);
 
         return { success: true };
     }

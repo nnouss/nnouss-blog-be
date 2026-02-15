@@ -163,7 +163,7 @@ export class PostService {
         }
 
         // 조회수 증가 (게시글이 존재할 때만)
-        await this.updateViews(slug);
+        await this.updateViews(post.id);
 
         return {
             ...post,
@@ -172,9 +172,9 @@ export class PostService {
     }
 
     /** 글 조회수 증가 */
-    async updateViews(slug: string) {
+    async updateViews(id: string) {
         return await this.prismaService.post.update({
-            where: { slug },
+            where: { id },
             data: {
                 views: {
                     increment: 1,
@@ -184,10 +184,10 @@ export class PostService {
     }
 
     /** 글 삭제 */
-    async deletePost(slug: string, authorId: string) {
+    async deletePost(id: string, authorId: string) {
         // 1. 게시글 찾기 (태그 정보 포함)
         const post = await this.prismaService.post.findUnique({
-            where: { slug },
+            where: { id },
             select: {
                 id: true,
                 authorId: true,
@@ -213,7 +213,7 @@ export class PostService {
         await this.prismaService.$transaction(async (tx) => {
             // 4-1. 게시글 삭제 (Cascade로 PostTag도 자동 삭제됨)
             await tx.post.delete({
-                where: { slug },
+                where: { id },
             });
 
             // 4-2. 사용되지 않는 태그 일괄 삭제 (PostTag 연결이 없는 태그만)
@@ -231,14 +231,15 @@ export class PostService {
     }
 
     /** 글 수정 */
-    async editPost(slug: string, data: EditPostDto, authorId: string) {
+    async editPost(id: string, data: EditPostDto, authorId: string) {
         // 1. 게시글 찾기 (기존 태그 정보 포함)
         const post = await this.prismaService.post.findUnique({
-            where: { slug },
+            where: { id },
             select: {
                 id: true,
                 authorId: true,
                 title: true,
+                slug: true,
                 tags: {
                     select: {
                         tagId: true,
@@ -265,7 +266,7 @@ export class PostService {
         // 4. 트랜잭션으로 게시글 및 태그 수정
         await this.prismaService.$transaction(async (tx) => {
             // 4-1. 제목이 변경되었으면 slug 새로 생성
-            let newSlug = slug;
+            let newSlug = post.slug;
             if (data.title && data.title !== post.title) {
                 newSlug = await generateSlug(data.title);
             }
@@ -287,7 +288,7 @@ export class PostService {
             if (data.thumbnailUrl !== undefined) {
                 updateData.thumbnail = data.thumbnailUrl || null;
             }
-            if (newSlug !== slug) {
+            if (newSlug !== post.slug) {
                 updateData.slug = newSlug;
             }
 
