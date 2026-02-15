@@ -11,15 +11,20 @@ import {
     Delete,
     Put,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { PostService } from './post.service';
+import { CommentService } from 'src/comment/comment.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreatePostDto } from './dtos/create-post.dto';
-import { Request } from 'express';
 import { EditPostDto } from './dtos/edit-post.dto';
+import { CreateCommentDto } from 'src/comment/dtos/create-comment.dto';
 
 @Controller('post')
 export class PostController {
-    constructor(private readonly postService: PostService) {}
+    constructor(
+        private readonly postService: PostService,
+        private readonly commentService: CommentService,
+    ) {}
 
     /** 글 등록 */
     @UseGuards(JwtAuthGuard)
@@ -77,5 +82,22 @@ export class PostController {
         await this.postService.editPost(id, data, authorId);
 
         return { success: true };
+    }
+
+    /** 댓글 작성 */
+    @UseGuards(JwtAuthGuard)
+    @Post(':postId/comment')
+    async createComment(
+        @Param('postId') postId: string,
+        @Body() dto: CreateCommentDto,
+        @Req() req: Request,
+    ) {
+        const authorId = req.user!.sub;
+        return this.commentService.createComment(
+            postId,
+            authorId,
+            dto.content,
+            dto.parentId,
+        );
     }
 }
