@@ -15,7 +15,7 @@ export class CommentService {
         postId: string,
         authorId: string,
         content: string,
-        parentId?: string,
+        parentId?: number,
     ) {
         if (!authorId) throw new ForbiddenException('로그인이 필요합니다.');
 
@@ -44,7 +44,7 @@ export class CommentService {
                         replyToUserId: null,
                     },
                 });
-                return { ...created, depth: Number(created.depth) };
+                return created;
             }
 
             // 2) 답글(대댓글/대댓글의 대댓글...)
@@ -76,8 +76,8 @@ export class CommentService {
              */
             const computedRootId = parent.rootId ?? parent.id;
 
-            // depth 계산 (Prisma depth는 BigInt이므로 number로 변환 후 연산)
-            const computedDepth = Number(parent.depth ?? 0) + 1;
+            // depth 계산
+            const computedDepth = (parent.depth ?? 0) + 1;
 
             /**
              * replyToUserId:
@@ -96,7 +96,122 @@ export class CommentService {
                     replyToUserId: computedReplyToUserId,
                 },
             });
-            return { ...created, depth: Number(created.depth) };
+            return created;
         });
+    }
+
+    /** 댓글 목록 조회 (page 기반 페이지네이션, limit 고정 5) */
+    async getByPostId(
+        postId: string,
+        page: number = 1,
+    ): Promise<{
+        data: any[];
+        totalCount: number;
+        totalPages: number;
+        currentPage: number;
+    }> {
+        const limit = 5;
+        const skip = (page - 1) * limit;
+
+        const post = await this.prismaService.post.findUnique({
+            where: { id: postId },
+            select: { id: true },
+        });
+
+        if (!post) throw new NotFoundException('게시글을 찾을 수 없습니다.');
+
+        const [totalCount, rootCount, roots] = await Promise.all([
+            // 전체 댓글 수
+            this.prismaService.comment.count({ where: { postId } }),
+
+            // 전체 root 댓글 수
+            this.prismaService.comment.count({
+                where: { postId, parentId: null },
+            }),
+
+            // root 댓글
+            this.prismaService.comment.findMany({
+                where: { postId, parentId: null },
+                orderBy: { createdAt: 'asc' },
+                skip,
+                take: limit,
+                select: {
+                    id: true,
+                    content: true,
+                    depth: true,
+                    parentId: true,
+                    rootId: true,
+                    authorId: true,
+                    replyToUserId: true,
+                    isDeleted: true,
+                    deletedAt: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    author: {
+                        select: { id: true, nickname: true },
+                    },
+                    replyToUser: {
+                        select: { id: true, nickname: true },
+                    },
+                },
+            }),
+        ]);
+
+        // root 댓글 Id 배열
+        const rootIds = roots.map((r) => r.id);
+
+        const allComments =
+            rootIds.length === 0
+                ? []
+                : await this.prismaService.comment.findMany({
+                      where: {
+                          postId,
+                          OR: [
+                              { id: { in: rootIds } },
+                              { rootId: { in: rootIds } },
+                          ],
+                      },
+                      orderBy: [{ rootId: 'asc' }, { createdAt: 'asc' }],
+                      select: {
+                          id: true,
+                          content: true,
+                          depth: true,
+                          parentId: true,
+                          rootId: true,
+                          authorId: true,
+                          replyToUserId: true,
+                          isDeleted: true,
+                          deletedAt: true,
+                          createdAt: true,
+                          updatedAt: true,
+                          author: {
+                              select: { id: true, nickname: true },
+                          },
+                          replyToUser: {
+                              select: { id: true, nickname: true },
+                          },
+                      },
+                  });
+
+        const data = roots.map((root) => {
+            // 해당 root 댓글과 하위 댓글
+            const thread = allComments.filter(
+                (c) => c.rootId === root.id && c.id !== root.id,
+            );
+
+            return {
+                ...root,
+                thread,
+            };
+        });
+
+        const totalPages = Math.ceil(rootCount / limit) || 1;
+
+        return {
+            data,
+            totalCount,
+            totalPages,
+            currentPage: page,
+        };
     }
 }

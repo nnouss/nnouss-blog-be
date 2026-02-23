@@ -100,4 +100,14 @@ export class PostController {
             dto.parentId,
         );
     }
+
+    /** 댓글 목록 조회 (비로그인 가능, page 기반 페이지네이션) */
+    @Get(':postId/comments')
+    async getComments(
+        @Param('postId') postId: string,
+        @Query('page') page?: string,
+    ) {
+        const pageNum = page ? Math.max(1, parseInt(page, 10) || 1) : 1;
+        return this.commentService.getByPostId(postId, pageNum);
+    }
 }

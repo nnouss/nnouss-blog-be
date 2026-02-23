@@ -97,7 +97,7 @@ model DailyTrafficStat {
 
 // 댓글
 model Comment {
-    id String @id @default(cuid())
+    id Int @id @default(autoincrement())
 
     postId String
     post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -112,18 +112,18 @@ model Comment {
     // 무한 depth: 직계 부모
     // Restrict: 실수로 부모 댓글 hard delete 했을 때, 아래가 연쇄 삭제되는 사고를 막음
     // hard delete는 leaf 없는 댓글 만 허용
-    parentId String?
+    parentId Int?
     parent Comment? @relation("CommentParent", fields: [parentId], references: [id], onDelete: Restrict)
     children Comment[] @relation("CommentParent")
 
     // 이 댓글이 속한 '최상위 댓글 id'
-    rootId String?
+    rootId Int?
     root Comment? @relation("CommentRoot", fields: [rootId], references: [id], onDelete: Restrict)
     thread Comment[] @relation("CommentRoot")
 
     // 실제 depth (0=최상위, 1=대댓글, 2=대댓글의 대댓글..)
     // UI 들여쓰기에는 그대로 쓰지않고, 멘션 표시 같은 정책에만 사용
-    depth BigInt @default(0)
+    depth Int @default(0)
 
     // 2단+에서 윗 댓글 작성자 태그(@xxx)를 위한 필드
     replyToUserId String?
