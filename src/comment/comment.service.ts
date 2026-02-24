@@ -214,4 +214,35 @@ export class CommentService {
             currentPage: page,
         };
     }
+
+    /** 댓글 삭제: leaf면 hard delete, 자식 있으면 soft delete */
+    async delete(commentId: number, userId: string): Promise<void> {
+        const comment = await this.prismaService.comment.findUnique({
+            where: { id: commentId },
+            select: {
+                authorId: true,
+                isDeleted: true,
+                _count: { select: { children: true } },
+            },
+        });
+
+        if (!comment) throw new NotFoundException('댓글을 찾을 수 없습니다.');
+
+        if (comment.authorId !== userId)
+            throw new ForbiddenException('댓글을 삭제할 권한이 없습니다.');
+
+        if (comment.isDeleted)
+            throw new BadRequestException('이미 삭제된 댓글입니다.');
+
+        if (comment._count.children === 0) {
+            await this.prismaService.comment.delete({
+                where: { id: commentId },
+            });
+        } else {
+            await this.prismaService.comment.update({
+                where: { id: commentId },
+                data: { isDeleted: true, deletedAt: new Date() },
+            });
+        }
+    }
 }
