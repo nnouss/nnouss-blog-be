@@ -245,4 +245,35 @@ export class CommentService {
             });
         }
     }
+
+    /** 댓글 수정 */
+    async update(
+        commentId: number,
+        userId: string,
+        content: string,
+    ): Promise<void> {
+        if (!content?.trim())
+            throw new BadRequestException('댓글 내용을 입력해주세요.');
+
+        const comment = await this.prismaService.comment.findUnique({
+            where: { id: commentId },
+            select: {
+                authorId: true,
+                isDeleted: true,
+            },
+        });
+
+        if (!comment) throw new NotFoundException('댓글을 찾을 수 없습니다.');
+
+        if (comment.authorId !== userId)
+            throw new ForbiddenException('댓글을 수정할 권한이 없습니다.');
+
+        if (comment.isDeleted)
+            throw new BadRequestException('삭제된 댓글은 수정할 수 없습니다.');
+
+        await this.prismaService.comment.update({
+            where: { id: commentId },
+            data: { content },
+        });
+    }
 }
