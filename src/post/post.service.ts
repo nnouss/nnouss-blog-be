@@ -118,12 +118,18 @@ export class PostService {
                         },
                     },
                 },
+                _count: {
+                    select: {
+                        Comments: true,
+                    },
+                },
             },
         });
 
         return posts.map((post) => ({
             ...post,
             tags: post.tags.map((postTag) => postTag.tag.name),
+            commentCount: post._count.Comments,
         }));
     }
 
