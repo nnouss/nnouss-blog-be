@@ -57,9 +57,12 @@ export class PostService {
         });
     }
 
-    /** 사이트맵용 글 전체 리스트 가져오기 */
+    /** 사이트맵용 글 전체 리스트 가져오기 (dev 타입만) */
     async getAllPosts() {
         const posts = await this.prismaService.post.findMany({
+            where: {
+                type: 'dev',
+            },
             orderBy: {
                 createdAt: 'desc',
             },
