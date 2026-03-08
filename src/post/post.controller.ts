@@ -53,6 +53,12 @@ export class PostController {
         return await this.postService.getPosts(page, tag, type);
     }
 
+    /** 메인 슬라이드용 최신 dev 게시글 5개 */
+    @Get('latest/dev')
+    async getLatestDevPosts() {
+        return await this.postService.getLatestDevPosts();
+    }
+
     /** 글 상세 가져오기 */
     @Get(':slug')
     async getPost(@Param('slug') slug: string) {

@@ -75,6 +75,43 @@ export class PostService {
         return posts;
     }
 
+    /** 메인 슬라이드용 최신 dev 게시글 5개 */
+    async getLatestDevPosts() {
+        const limit = 5;
+
+        const posts = await this.prismaService.post.findMany({
+            where: { type: 'dev' },
+            orderBy: { createdAt: 'desc' },
+            take: limit,
+            select: {
+                id: true,
+                title: true,
+                thumbnail: true,
+                slug: true,
+                views: true,
+                createdAt: true,
+                author: {
+                    select: {
+                        id: true,
+                        nickname: true,
+                    },
+                },
+                tags: {
+                    select: {
+                        tag: { select: { name: true } },
+                    },
+                },
+                _count: { select: { Comments: true } },
+            },
+        });
+
+        return posts.map((post) => ({
+            ...post,
+            tags: post.tags.map((pt) => pt.tag.name),
+            commentCount: post._count.Comments,
+        }));
+    }
+
     /** 글 리스트 가져오기 (type: dev | story) */
     async getPosts(page: number, tag?: string, type?: 'dev' | 'story') {
         const limit = 5;
