@@ -75,23 +75,26 @@ export class PostService {
         return posts;
     }
 
-    /** 글 리스트 가져오기 */
-    async getPosts(page: number, tag?: string) {
+    /** 글 리스트 가져오기 (type: dev | story) */
+    async getPosts(page: number, tag?: string, type?: 'dev' | 'story') {
         const limit = 5;
         const skip = (page - 1) * limit;
 
-        // 조건
-        const where = tag
-            ? {
-                  tags: {
-                      some: {
-                          tag: {
-                              name: tag,
-                          },
-                      },
-                  },
-              }
-            : {};
+        const where: {
+            type?: 'dev' | 'story';
+            tags?: { some: { tag: { name: string } } };
+        } = {};
+
+        if (type === 'dev' || type === 'story') {
+            where.type = type;
+        }
+        if (tag) {
+            where.tags = {
+                some: {
+                    tag: { name: tag },
+                },
+            };
+        }
 
         const posts = await this.prismaService.post.findMany({
             where,

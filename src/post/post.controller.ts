@@ -43,13 +43,14 @@ export class PostController {
         return await this.postService.getAllPosts();
     }
 
-    /** 글 리스트 가져오기 */
+    /** 글 리스트 가져오기 (type: dev | story) */
     @Get('')
     async getPosts(
         @Query('page', ParseIntPipe) page: number,
         @Query('tag') tag?: string,
+        @Query('type') type?: 'dev' | 'story',
     ) {
-        return await this.postService.getPosts(page, tag);
+        return await this.postService.getPosts(page, tag, type);
     }
 
     /** 글 상세 가져오기 */
