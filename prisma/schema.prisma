@@ -22,6 +22,12 @@ enum Role {
     USER
 }
 
+enum PostType {
+    dev
+    story
+}
+
+
 model User {
     id String @id @default(cuid())
     email String @unique
@@ -41,8 +47,11 @@ model User {
     repliedToByComments Comment[] @relation("CommentReplyToUser")
 }
 
+
 model Post {
     id String @id @default(cuid())
+
+    type PostType @default(dev)
 
     authorId String
     author User @relation(fields: [authorId], references: [id], onDelete: Cascade)

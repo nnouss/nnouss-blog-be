@@ -14,7 +14,7 @@ export class PostService {
 
     /** 글 등록 */
     async createPost(
-        { title, content, tags, thumbnailUrl }: CreatePostDto,
+        { title, type, content, tags, thumbnailUrl }: CreatePostDto,
         authorId: string,
     ): Promise<void> {
         // 1. slug 생성
@@ -27,6 +27,7 @@ export class PostService {
                 data: {
                     authorId,
                     title,
+                    type,
                     content,
                     thumbnail: thumbnailUrl || null,
                     slug,
@@ -277,9 +278,10 @@ export class PostService {
                 newSlug = await generateSlug(data.title);
             }
 
-            // 4-2. 제목, content, 썸네일, 슬러그 수정저장
+            // 4-2. 제목, type, content, 썸네일, 슬러그 수정저장
             const updateData: {
                 title?: string;
+                type?: CreatePostDto['type'];
                 content?: string;
                 thumbnail?: string | null;
                 slug?: string;
@@ -287,6 +289,9 @@ export class PostService {
 
             if (data.title !== undefined) {
                 updateData.title = data.title;
+            }
+            if (data.type !== undefined) {
+                updateData.type = data.type;
             }
             if (data.content !== undefined) {
                 updateData.content = data.content;

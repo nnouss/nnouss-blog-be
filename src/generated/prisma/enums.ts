@@ -15,3 +15,11 @@ export const Role = {
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const PostType = {
+  dev: 'dev',
+  story: 'story'
+} as const
+
+export type PostType = (typeof PostType)[keyof typeof PostType]

@@ -132,6 +132,13 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumPostTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostType | Prisma.EnumPostTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostTypeFilter<$PrismaModel> | $Enums.PostType
+}
+
 export type StringNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
@@ -156,6 +163,16 @@ export type IntFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntFilter<$PrismaModel> | number
+}
+
+export type EnumPostTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostType | Prisma.EnumPostTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostTypeWithAggregatesFilter<$PrismaModel> | $Enums.PostType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostTypeFilter<$PrismaModel>
 }
 
 export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -379,6 +396,13 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type NestedEnumPostTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostType | Prisma.EnumPostTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostTypeFilter<$PrismaModel> | $Enums.PostType
+}
+
 export type NestedStringNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
@@ -391,6 +415,16 @@ export type NestedStringNullableFilter<$PrismaModel = never> = {
   startsWith?: string | Prisma.StringFieldRefInput<$PrismaModel>
   endsWith?: string | Prisma.StringFieldRefInput<$PrismaModel>
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
+}
+
+export type NestedEnumPostTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostType | Prisma.EnumPostTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostType[] | Prisma.ListEnumPostTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostTypeWithAggregatesFilter<$PrismaModel> | $Enums.PostType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostTypeFilter<$PrismaModel>
 }
 
 export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {

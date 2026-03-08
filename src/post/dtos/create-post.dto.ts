@@ -1,9 +1,23 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+    IsArray,
+    IsEnum,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+} from 'class-validator';
+
+export enum PostType {
+    dev = 'dev',
+    story = 'story',
+}
 
 export class CreatePostDto {
     @IsString()
     @IsNotEmpty()
     title!: string;
+
+    @IsEnum(PostType)
+    type!: PostType;
 
     @IsArray()
     @IsString({ each: true })
