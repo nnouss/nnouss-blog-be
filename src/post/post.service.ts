@@ -75,12 +75,12 @@ export class PostService {
         return posts;
     }
 
-    /** 메인 슬라이드용 최신 dev 게시글 5개 */
-    async getLatestDevPosts() {
+    /** 메인 슬라이드용 최신 글 5개 (type: dev | story) */
+    async getLatestPosts(type: 'dev' | 'story') {
         const limit = 5;
 
         const posts = await this.prismaService.post.findMany({
-            where: { type: 'dev' },
+            where: { type },
             orderBy: { createdAt: 'desc' },
             take: limit,
             select: {

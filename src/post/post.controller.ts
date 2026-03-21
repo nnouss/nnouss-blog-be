@@ -1,5 +1,6 @@
 import {
     Body,
+    BadRequestException,
     Controller,
     Get,
     Post,
@@ -53,10 +54,14 @@ export class PostController {
         return await this.postService.getPosts(page, tag, type);
     }
 
-    /** 메인 슬라이드용 최신 dev 게시글 5개 */
-    @Get('latest/dev')
-    async getLatestDevPosts() {
-        return await this.postService.getLatestDevPosts();
+    /** 메인 슬라이드용 최신 글 5개 (type: dev | story) */
+    @Get('latest')
+    async getLatestPosts(@Query('type') type?: 'dev' | 'story') {
+        if (type !== 'dev' && type !== 'story') {
+            throw new BadRequestException('type must be dev or story');
+        }
+
+        return await this.postService.getLatestPosts(type);
     }
 
     /** 글 상세 가져오기 */
